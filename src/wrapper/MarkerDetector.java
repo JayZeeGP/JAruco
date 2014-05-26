@@ -4,27 +4,18 @@
  */
 package wrapper;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfByte;
 import org.opencv.core.Point;
 import org.opencv.core.Size;
-import org.opencv.highgui.Highgui;
 
 /**
  *
  * @author jayzeegp
  */
 public class MarkerDetector {
-    //private native void Jdetect(Mat input, ArrayList <Marker> Marker, Mat camMatrix, Mat distCoeff, float markerSizeMeters, boolean SetYPerperdicular);
-    private native void Jdetect(long input, ArrayList <Marker> detectedMarkers, CameraParameters cam,float markerSizeMeters);
+    private native void Jdetect(long input, ArrayList <Marker> Marker, long camMatrix, long distCoeff, float markerSizeMeters, boolean SetYPerperdicular);
+    private native void Jdetect(long input, ArrayList <Marker> detectedMarkers, CameraParameters cam,float markerSizeMeters, boolean setYPerpendicular);
     private native void JMarkerDetector();
     private native int JgetDesiredSpeed();
     private native void JsetDesiredSpeed(int val);
@@ -49,9 +40,39 @@ public class MarkerDetector {
         JMarkerDetector();
     }
 
-    public void detect(Mat img, ArrayList<Marker> markers, CameraParameters camParam, float markerSizeMeters) {
-        Jdetect(img.getNativeObjAddr(), markers, camParam, markerSizeMeters);
+    public void detect(Mat img, ArrayList<Marker> markers, CameraParameters camParam, float markerSizeMeters, boolean setYPerpendicular) {
+        Jdetect(img.getNativeObjAddr(), markers, camParam, markerSizeMeters, setYPerpendicular);
     }
+    
+    public void detect(Mat img, ArrayList<Marker> markers, CameraParameters camParam, float markerSizeMeters) {
+        Jdetect(img.getNativeObjAddr(), markers, camParam, markerSizeMeters, true);
+    }
+ 
+    public void detect(Mat img, ArrayList<Marker> markers, CameraParameters camParam) {
+        Jdetect(img.getNativeObjAddr(), markers, camParam, -1, true);
+    }
+              
+    public void detect(Mat input, ArrayList<Marker> detectedMarkers){
+        Jdetect(input.getNativeObjAddr(), detectedMarkers, new Mat().getNativeObjAddr(), new Mat().getNativeObjAddr(), -1, true);
+    }
+    
+    public void detect(Mat input, ArrayList<Marker> detectedMarkers, Mat camMatrix){
+        Jdetect(input.getNativeObjAddr(), detectedMarkers, camMatrix.getNativeObjAddr(), new Mat().getNativeObjAddr(), -1, true);
+    }
+    
+    public void detect(Mat input, ArrayList<Marker> detectedMarkers, Mat camMatrix, Mat distCoeff){
+        Jdetect(input.getNativeObjAddr(), detectedMarkers, camMatrix.getNativeObjAddr(), distCoeff.getNativeObjAddr(), -1, true);
+    }
+    
+    public void detect(Mat input, ArrayList<Marker> detectedMarkers, Mat camMatrix, Mat distCoeff, float markerSizeMeters){
+        Jdetect(input.getNativeObjAddr(), detectedMarkers, camMatrix.getNativeObjAddr(), distCoeff.getNativeObjAddr(), markerSizeMeters, true);
+    }
+    
+     public void detect(Mat input, ArrayList<Marker> detectedMarkers, Mat camMatrix, Mat distCoeff, float markerSizeMeters, boolean setYPerpendicular){
+        Jdetect(input.getNativeObjAddr(), detectedMarkers, camMatrix.getNativeObjAddr(), distCoeff.getNativeObjAddr(), markerSizeMeters, setYPerpendicular);
+    }
+
+
     
     public enum ThresholdMethods{FIXED_THRES,ADPT_THRES,CANNY};
     public enum CornerRefinementMethod {NONE,HARRIS,SUBPIX,LINES};

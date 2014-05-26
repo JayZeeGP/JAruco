@@ -23,6 +23,10 @@ public class BoardDetector {
     private static MarkerDetector inst;
     private long nativeHandle;
     
+    public BoardDetector(){
+        JBoardDetector(true);
+    }
+    
     public BoardDetector(boolean setYPerpendicular){
         JBoardDetector(setYPerpendicular);
     }

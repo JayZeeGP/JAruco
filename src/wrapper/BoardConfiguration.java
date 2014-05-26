@@ -21,6 +21,7 @@ public class BoardConfiguration {
     private native boolean JisExpressedInPixels();
     private native int JgetIndexOfMarkerId(int id);
     private native void JgetIdList(ArrayList <Integer> ids, boolean append);
+    private native int Jsize();
     
     private long nativeHandle;
     
@@ -65,4 +66,10 @@ public class BoardConfiguration {
     void getIdList(ArrayList <Integer> ids){
         getIdList(ids, true);
     }
+    
+    //Vector functiones
+    int size(){
+        return Jsize();
+    }
+
 }
