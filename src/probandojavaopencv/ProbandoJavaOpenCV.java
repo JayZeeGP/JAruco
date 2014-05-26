@@ -12,10 +12,13 @@ import org.opencv.core.MatOfByte;
 import org.opencv.highgui.Highgui;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import org.opencv.core.Point;
 import org.opencv.core.Size;
 
 import wrapper.*;
@@ -55,7 +58,18 @@ public class ProbandoJavaOpenCV {
      excludedIds.add(44);
      excludedIds.add(22);
      
+     ArrayList<Point> puntos = new ArrayList();
+     puntos.add(0, new Point(1.04,4.50));
+     puntos.add(1, new Point(1.05,4.51));
+     puntos.add(2, new Point(1.06,4.52));
+     puntos.add(3, new Point(1.07,4.53));
      
+     try {
+         mDetector.warp(img, img, new Size(4,4), puntos);
+     } catch (Exception ex) {
+        System.out.println(ex.getMessage());
+     }
+     /*
      try{
          //bd.detect(markers, boardC, board, camParam);
          //Mat returned = fm.createBoardImage(new Size(2,3), 50, 5, boardC, excludedIds);
@@ -111,7 +125,7 @@ public class ProbandoJavaOpenCV {
     frame.pack();
     frame.setVisible(true);
     Mat resultado;  
-    
+    */
     
     }
 

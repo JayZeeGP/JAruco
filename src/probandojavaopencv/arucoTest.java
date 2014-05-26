@@ -16,9 +16,6 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import org.opencv.core.Point;
-import org.opencv.core.Size;
-import org.opencv.core.CvType;
 import org.opencv.highgui.VideoCapture;
 
 import wrapper.*;
@@ -76,12 +73,14 @@ public boolean readArguments (String[] args)
         
          if(inst.TheInputVideo.equals("live")){
              inst.TheVideoCapturer.open(0);
-             Thread.sleep(1000);
              inst.waitTime = 10;
          }else{
              inst.TheVideoCapturer.open(Integer.parseInt(inst.TheInputVideo));
          }
-      
+         
+         //Time for cam to initialize
+         Thread.sleep(1000);
+         
          if (!inst.TheVideoCapturer.isOpened()) {
             System.out.println("Could not open video");
             System.exit(-1);
